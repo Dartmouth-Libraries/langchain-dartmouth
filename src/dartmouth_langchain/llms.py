@@ -1,6 +1,8 @@
 from langchain_community.llms import HuggingFaceTextGenInference
 
 import dartmouth_auth
+from dartmouth_auth.definitions import ENV_NAMES
+from dartmouth_langchain.definitions import LLM_BASE_URL
 
 from typing import Callable
 
@@ -25,23 +27,21 @@ class DartmouthChatModel(HuggingFaceTextGenInference):
         inference_server_url: str = None,
         **kwargs,
     ):
-        """
+        f"""
         Initializes the object
 
         Args:
             dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
-                If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+                If not specified, it is attempted to be inferred from an environment variable {ENV_NAMES["dartmouth_api_key"]}.
             model_name (str, optional): Name of the model to use. Defaults to "llama-2-13b-chat-hf".
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
-            inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to 'https://ai-api.dartmouth.edu/tgi/{model_name}/generate_stream'.
+            inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to '{LLM_BASE_URL}{model_name}/'.
         """
         if inference_server_url:
             kwargs["inference_server_url"] = inference_server_url
         else:
-            kwargs["inference_server_url"] = (
-                f"https://ai-api.dartmouth.edu/tgi/{model_name}/"
-            )
+            kwargs["inference_server_url"] = f"{LLM_BASE_URL}{model_name}/"
         super().__init__(*args, **kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key

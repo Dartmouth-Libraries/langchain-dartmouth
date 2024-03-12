@@ -16,6 +16,7 @@ dependencies = [
     "dartmouth-auth",
     "langchain",
     "langchain_community",
+    "text_generation"
 ]
 
 [project.urls]

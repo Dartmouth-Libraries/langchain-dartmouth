@@ -4,6 +4,8 @@ import dartmouth_auth
 
 from typing import Callable
 
+from dartmouth_langchain.definitions import EMBEDDINGS_BASE_URL
+
 
 class DartmouthEmbeddings(HuggingFaceHubEmbeddings):
     """
@@ -25,7 +27,7 @@ class DartmouthEmbeddings(HuggingFaceHubEmbeddings):
         jwt_url: str = None,
         **kwargs,
     ):
-        """
+        f"""
         Initializes the object
 
         Args:
@@ -38,7 +40,7 @@ class DartmouthEmbeddings(HuggingFaceHubEmbeddings):
         if model:
             kwargs["model"] = model
         else:
-            kwargs["model"] = f"https://ai-api.dartmouth.edu/tei/{model_name}/"
+            kwargs["model"] = f"{EMBEDDINGS_BASE_URL}{model_name}/"
         super().__init__(*args, **kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
