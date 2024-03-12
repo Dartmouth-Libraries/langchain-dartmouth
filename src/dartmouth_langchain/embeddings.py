@@ -1,13 +1,12 @@
 from langchain_community.embeddings import HuggingFaceHubEmbeddings
 
-import dartmouth_auth
-
 from typing import Callable
 
+from dartmouth_langchain.base import AuthenticatedMixin
 from dartmouth_langchain.definitions import EMBEDDINGS_BASE_URL
 
 
-class DartmouthEmbeddings(HuggingFaceHubEmbeddings):
+class DartmouthEmbeddings(HuggingFaceHubEmbeddings, AuthenticatedMixin):
     """
     Extends the LangChain class HuggingFaceHubEmbeddings for more convenient
     interaction with Dartmouth's instance of Text Embeddings Inference
@@ -45,12 +44,3 @@ class DartmouthEmbeddings(HuggingFaceHubEmbeddings):
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)
-
-    def authenticate(self, jwt_url=None):
-        if self.authenticator:
-            jwt = self.authenticator()
-        else:
-            jwt = dartmouth_auth.get_jwt(
-                dartmouth_api_key=self.dartmouth_api_key, jwt_url=jwt_url
-            )
-        self.client.headers = {"Authorization": f"Bearer {jwt}"}

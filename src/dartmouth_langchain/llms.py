@@ -1,13 +1,13 @@
 from langchain_community.llms import HuggingFaceTextGenInference
 
-import dartmouth_auth
 from dartmouth_auth.definitions import ENV_NAMES
 from dartmouth_langchain.definitions import LLM_BASE_URL
+from dartmouth_langchain.base import AuthenticatedMixin
 
 from typing import Callable
 
 
-class DartmouthChatModel(HuggingFaceTextGenInference):
+class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
     """
     Extends the LangChain class HuggingFaceTextGenInference for more convenient
     interaction with Dartmouth's instance of Text Generation Inference
@@ -46,15 +46,6 @@ class DartmouthChatModel(HuggingFaceTextGenInference):
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)
-
-    def authenticate(self, jwt_url=None):
-        if self.authenticator:
-            jwt = self.authenticator()
-        else:
-            jwt = dartmouth_auth.get_jwt(
-                dartmouth_api_key=self.dartmouth_api_key, jwt_url=jwt_url
-            )
-        self.client.headers = {"Authorization": f"Bearer {jwt}"}
 
     def invoke(self, *args, **kwargs) -> str:
         """Invokes the model to get a response to a query."""
