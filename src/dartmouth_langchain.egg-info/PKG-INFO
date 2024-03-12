@@ -1,0 +1,20 @@
+Metadata-Version: 2.1
+Name: dartmouth_langchain
+Version: 0.0.1
+Summary: LangChain components for Dartmouth-hosted models.
+Author-email: Simon Stone <simon.stone@dartmouth.edu>
+Project-URL: Homepage, https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain
+Project-URL: Issues, https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain/-/issues
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: dartmouth-auth
+Requires-Dist: langchain
+Requires-Dist: langchain_community
+
+# Dartmouth LangChain
+
+LangChain components for Dartmouth-hosted models.
+
