@@ -45,12 +45,21 @@ class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
         super().__init__(*args, **kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
-        self.authenticate(jwt_url=jwt_url)
+        self.jwt_url = jwt_url
+        self.authenticate(jwt_url=self.jwt_url)
 
     def invoke(self, *args, **kwargs) -> str:
         """Invokes the model to get a response to a query."""
         try:
             return super().invoke(*args, **kwargs)
         except KeyError:
-            self.authenticate()
+            self.authenticate(jwt_url=self.jwt_url)
             return super().invoke(*args, **kwargs)
+
+    async def ainvoke(self, *args, **kwargs) -> str:
+        """Invokes the model to get a response to a query."""
+        try:
+            return super().ainvoke(*args, **kwargs)
+        except KeyError:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().ainvoke(*args, **kwargs)
