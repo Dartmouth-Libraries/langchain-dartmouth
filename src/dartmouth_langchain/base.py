@@ -12,3 +12,4 @@ class AuthenticatedMixin:
                 dartmouth_api_key=self.dartmouth_api_key, jwt_url=jwt_url
             )
         self.client.headers = {"Authorization": f"Bearer {jwt}"}
+        self.async_client.headers = {"Authorization": f"Bearer {jwt}"}
