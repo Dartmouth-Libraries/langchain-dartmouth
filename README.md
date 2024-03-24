@@ -38,6 +38,6 @@ from dartmouth_langchain import DartmouthEmbeddingsModel
 
 embeddings = DartmouthEmbeddingsModel()
 
-embeddings.embed_query("Hello? Is there anybody in there?)
+embeddings.embed_query("Hello? Is there anybody in there?")
 ```
 
