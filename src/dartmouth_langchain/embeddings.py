@@ -13,20 +13,20 @@ class DartmouthEmbeddings(HuggingFaceHubEmbeddings, AuthenticatedMixin):
     """
 
     authenticator: Callable = None
+    """A Callable returning a JSON Web Token (JWT) for authentication"""
     dartmouth_api_key: str = None
+    """A Dartmouth API key (obtainable from https://developer.dartmouth.edu)"""
     jwt_url: str = None
+    """URL of the Dartmouth API endpoint returning a JSON Web Token (JWT)"""
 
     def __init__(
         self,
-        *args,
         dartmouth_api_key: str = None,
-        model=None,
         model_name="bge-large-en-v1-5",
         authenticator: Callable = None,
         jwt_url: str = None,
-        **kwargs,
     ):
-        f"""
+        """
         Initializes the object
 
         Args:
@@ -36,11 +36,8 @@ class DartmouthEmbeddings(HuggingFaceHubEmbeddings, AuthenticatedMixin):
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
         """
-        if model:
-            kwargs["model"] = model
-        else:
-            kwargs["model"] = f"{EMBEDDINGS_BASE_URL}{model_name}/"
-        super().__init__(*args, **kwargs)
+        endpoint = f"{EMBEDDINGS_BASE_URL}{model_name}/"
+        super().__init__(model=endpoint)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)
