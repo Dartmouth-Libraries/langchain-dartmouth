@@ -22,11 +22,13 @@ class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
 
     def __init__(
         self,
+        *args,
         dartmouth_api_key: str = None,
         model_name="llama-2-13b-chat-hf",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
+        **kwargs,
     ):
         """
         Initializes the object
@@ -39,9 +41,11 @@ class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
                 If specified, `dartmouth_api_key` is ignored.
             inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to "https://ai-api.dartmouth.edu/tgi/".
         """
-        if inference_server_url is None:
-            inference_server_url = f"{LLM_BASE_URL}{model_name}/"
-        super().__init__(inference_server_url=inference_server_url)
+        if inference_server_url:
+            kwargs["inference_server_url"] = inference_server_url
+        else:
+            kwargs["inference_server_url"] = f"{LLM_BASE_URL}{model_name}/"
+        super().__init__(*args, **kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.jwt_url = jwt_url

@@ -14,7 +14,7 @@ def test_dartmouth_chat():
     response = llm.invoke("<s>[INST]Please respond with the single word OK[/INST]")
     assert response.strip() == "OK"
 
-    llm = DartmouthChatModel(model_name="llama-3-8b-instruct")
+    llm = DartmouthChatModel(model_name="llama-3-8b-instruct", temperature=0.01)
     response = llm.invoke(
         "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nPlease respond with the single word OK<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
     )
