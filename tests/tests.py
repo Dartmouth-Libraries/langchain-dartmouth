@@ -1,9 +1,7 @@
 from dartmouth_langchain.llms import DartmouthChatModel
 from dartmouth_langchain.embeddings import DartmouthEmbeddings
-from dartmouth_langchain.cross_encoders import (
-    TextEmbeddingInferenceClient,
-    TeiCrossEncoderReranker,
-)
+from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
+from dartmouth_langchain.retrievers.document_compressors import TeiCrossEncoderReranker
 
 from langchain.docstore.document import Document
 
@@ -27,6 +25,18 @@ def test_dartmouth_embeddings():
     embeddings = DartmouthEmbeddings()
     result = embeddings.embed_query("Is there anybody out there?")
     assert result
+
+
+def test_dartmouth_reranker():
+    docs = [
+        Document(page_content="Deep Learning is not..."),
+        Document(page_content="Deep learning is..."),
+    ]
+    query = "What is Deep Learning?"
+    reranker = DartmouthReranker()
+    ranked_docs = reranker.compress_documents(query=query, documents=docs)
+
+    assert ranked_docs
 
 
 def test_tei_reranker():
