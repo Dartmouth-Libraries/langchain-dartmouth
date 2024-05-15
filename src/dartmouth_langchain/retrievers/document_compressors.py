@@ -62,7 +62,7 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name: str = "bge-reranker-large",
+        model_name: str = "bge-reranker-v2-m3",
         authenticator: Callable = None,
         jwt_url: str = None,
         **kwargs,
@@ -73,7 +73,7 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
         Args:
             dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
                 If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-            model_name (str, optional): Name of the model to use. Defaults to "bge-large-en-v1-5".
+            model_name (str, optional): Name of the model to use. Defaults to "bge-reranker-v2-m3".
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
         """

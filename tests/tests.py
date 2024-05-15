@@ -71,12 +71,13 @@ def test_tei_client():
     ]
     tei_client = TextEmbeddingInferenceClient()
     scores = tei_client.rerank(query=query, texts=texts)
+
     assert scores
 
 
 if __name__ == "__main__":
     test_dartmouth_chat()
     test_dartmouth_embeddings()
-    # test_tei_client()
-    # test_tei_reranker()
+    test_tei_client()
+    test_tei_reranker()
     test_dartmouth_reranker()
