@@ -1,7 +1,9 @@
 from dartmouth_langchain.llms import DartmouthChatModel
 from dartmouth_langchain.embeddings import DartmouthEmbeddings
-from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
-
+from dartmouth_langchain.cross_encoders import (
+    TextEmbeddingInferenceClient,
+    TeiCrossEncoderReranker,
+)
 
 from langchain.docstore.document import Document
 
@@ -27,15 +29,16 @@ def test_dartmouth_embeddings():
     assert result
 
 
-# def test_dartmouth_reranker():
-#     docs = [
-#         "Deep Learning is not...",
-#         "Deep learning is...",
-#     ]
-#     cross_encoder = DartmouthCrossEncoder()
-#     scores = cross_encoder.score(docs)
+def test_tei_reranker():
+    docs = [
+        Document(page_content="Deep Learning is not..."),
+        Document(page_content="Deep learning is..."),
+    ]
+    query = "What is Deep Learning?"
+    cross_encoder = TeiCrossEncoderReranker()
+    ranked_docs = cross_encoder.compress_documents(query=query, documents=docs)
 
-#     assert scores
+    assert ranked_docs
 
 
 def test_tei_client():
@@ -53,3 +56,4 @@ if __name__ == "__main__":
     test_dartmouth_chat()
     test_dartmouth_embeddings()
     test_tei_client()
+    test_tei_reranker()

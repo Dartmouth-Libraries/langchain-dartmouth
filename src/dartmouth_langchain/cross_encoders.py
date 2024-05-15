@@ -1,8 +1,7 @@
-from langchain_community.cross_encoders.base import BaseCrossEncoder
 from langchain_core.callbacks import Callbacks
-from langchain_core.documents import Document
-from langchain_core.pydantic_v1 import Extra
-from langchain.retrievers.document_compressors import CrossEncoderReranker
+from langchain_core.documents import Document, BaseDocumentCompressor
+from langchain_core.pydantic_v1 import Extra, Field
+
 
 import requests
 
@@ -29,12 +28,15 @@ class TextEmbeddingInferenceClient:
             headers={"Content-Type": "application/json"},
         )
         r.raise_for_status()
-        return r.json()
+        return [text["score"] for text in sorted(r.json(), key=lambda x: x["index"])]
 
 
-class TeiCrossEncoderReranker(CrossEncoderReranker):
+class TeiCrossEncoderReranker(BaseDocumentCompressor):
     """Document compressor that uses an instance of TextEmbeddingInference for reranking."""
 
+    client: TextEmbeddingInferenceClient = Field(
+        default_factory=lambda: TextEmbeddingInferenceClient()
+    )
     top_n: int = 3
     """Number of documents to return."""
 
