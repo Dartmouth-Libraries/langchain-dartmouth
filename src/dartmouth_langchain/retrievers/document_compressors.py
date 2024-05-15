@@ -60,10 +60,12 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
 
     def __init__(
         self,
+        *args,
         dartmouth_api_key: str = None,
         model_name: str = "bge-reranker-large",
         authenticator: Callable = None,
         jwt_url: str = None,
+        **kwargs,
     ):
         """
         Initializes the object
@@ -76,9 +78,11 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
                 If specified, `dartmouth_api_key` is ignored.
         """
         endpoint = f"{RERANK_BASE_URL}{model_name}/"
-        super().__init__(
-            client=TextEmbeddingInferenceClient(inference_server_url=endpoint)
-        )
+        if "client" not in kwargs:
+            kwargs["client"] = TextEmbeddingInferenceClient(
+                inference_server_url=endpoint
+            )
+        super().__init__(*args, **kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)

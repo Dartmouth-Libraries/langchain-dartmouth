@@ -44,8 +44,11 @@ def test_dartmouth_reranker():
     query = "What is Deep Learning?"
     reranker = DartmouthReranker()
     ranked_docs = reranker.compress_documents(query=query, documents=docs)
-
     assert ranked_docs
+
+    reranker = DartmouthReranker(top_n=1)
+    ranked_docs = reranker.compress_documents(query=query, documents=docs)
+    assert len(ranked_docs) == 1
 
 
 def test_tei_reranker():
