@@ -3,10 +3,11 @@ from langchain_core.documents import Document, BaseDocumentCompressor
 from langchain_core.pydantic_v1 import Extra, Field
 
 import operator
-from typing import Optional, Sequence
+from typing import Callable, Optional, Sequence
 
 from dartmouth_langchain.base import AuthenticatedMixin
 from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
+from dartmouth_langchain.definitions import RERANK_BASE_URL
 
 
 class TeiCrossEncoderReranker(BaseDocumentCompressor):
@@ -45,3 +46,39 @@ class TeiCrossEncoderReranker(BaseDocumentCompressor):
         docs_with_scores = list(zip(documents, scores))
         result = sorted(docs_with_scores, key=operator.itemgetter(1), reverse=True)
         return [doc for doc, _ in result[: self.top_n]]
+
+
+class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
+    """Facilitates interaction with a Dartmouth-hosted instance of a Text Embedding Inference instance for reranking"""
+
+    authenticator: Callable = None
+    """A Callable returning a JSON Web Token (JWT) for authentication"""
+    dartmouth_api_key: str = None
+    """A Dartmouth API key (obtainable from https://developer.dartmouth.edu)"""
+    jwt_url: str = None
+    """URL of the Dartmouth API endpoint returning a JSON Web Token (JWT)"""
+
+    def __init__(
+        self,
+        dartmouth_api_key: str = None,
+        model_name: str = "bge-reranker-large",
+        authenticator: Callable = None,
+        jwt_url: str = None,
+    ):
+        """
+        Initializes the object
+
+        Args:
+            dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
+                If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+            model_name (str, optional): Name of the model to use. Defaults to "bge-large-en-v1-5".
+            authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
+                If specified, `dartmouth_api_key` is ignored.
+        """
+        endpoint = f"{RERANK_BASE_URL}{model_name}/"
+        super().__init__(
+            client=TextEmbeddingInferenceClient(inference_server_url=endpoint)
+        )
+        self.authenticator = authenticator
+        self.dartmouth_api_key = dartmouth_api_key
+        self.authenticate(jwt_url=jwt_url)

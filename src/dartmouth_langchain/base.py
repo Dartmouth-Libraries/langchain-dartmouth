@@ -11,5 +11,13 @@ class AuthenticatedMixin:
             jwt = dartmouth_auth.get_jwt(
                 dartmouth_api_key=self.dartmouth_api_key, jwt_url=jwt_url
             )
-        self.client.headers = {"Authorization": f"Bearer {jwt}"}
-        self.async_client.headers = {"Authorization": f"Bearer {jwt}"}
+        auth_header = {"Authorization": f"Bearer {jwt}"}
+        if self.client.headers is not None:
+            self.client.headers.update(auth_header)
+        else:
+            self.client.headers = auth_header
+        if hasattr(self, "async_client"):
+            if self.async_client.headers is not None:
+                self.async_client.headers.update(auth_header)
+            else:
+                self.async_client.headers = auth_header
