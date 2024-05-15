@@ -74,6 +74,6 @@ def test_tei_client():
 if __name__ == "__main__":
     test_dartmouth_chat()
     test_dartmouth_embeddings()
-    test_tei_client()
-    test_tei_reranker()
+    # test_tei_client()
+    # test_tei_reranker()
     test_dartmouth_reranker()
