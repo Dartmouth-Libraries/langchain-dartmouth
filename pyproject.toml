@@ -1,6 +1,6 @@
 [project]
 name = "dartmouth_langchain"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
   { name="Simon Stone", email="simon.stone@dartmouth.edu" },
 ]
