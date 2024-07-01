@@ -1,4 +1,4 @@
-from langchain_community.embeddings import HuggingFaceHubEmbeddings
+from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 
 from typing import Callable
 
@@ -6,9 +6,9 @@ from dartmouth_langchain.base import AuthenticatedMixin
 from dartmouth_langchain.definitions import EMBEDDINGS_BASE_URL
 
 
-class DartmouthEmbeddings(HuggingFaceHubEmbeddings, AuthenticatedMixin):
+class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
     """
-    Extends the LangChain class HuggingFaceHubEmbeddings for more convenient
+    Extends the LangChain class HuggingFaceEndpointEmbeddings for more convenient
     interaction with Dartmouth's instance of Text Embeddings Inference
     """
 

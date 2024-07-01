@@ -8,6 +8,10 @@ from dartmouth_langchain.retrievers.document_compressors import (
 
 from langchain.docstore.document import Document
 
+from dotenv import load_dotenv, find_dotenv
+
+load_dotenv(find_dotenv())
+
 
 def test_dartmouth_chat():
     llm = DartmouthChatModel()
