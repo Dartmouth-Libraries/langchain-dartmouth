@@ -1,16 +1,21 @@
 from langchain_community.llms import HuggingFaceTextGenInference
 
-from dartmouth_auth.definitions import ENV_NAMES
 from dartmouth_langchain.definitions import LLM_BASE_URL
 from dartmouth_langchain.base import AuthenticatedMixin
 
 from typing import Callable
 
 
-class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
+class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     """
-    Extends the LangChain class HuggingFaceTextGenInference for more convenient
-    interaction with Dartmouth's instance of Text Generation Inference
+    Dartmouth-deployed Large Language Models. Use this class for non-chat models
+    (e.g., [CodeLlama 13B](https://huggingface.co/meta-llama/CodeLlama-13b-hf)).
+
+    This class does not format the prompt to adhere to any required templates.
+    The string you pass to it is exactly the string received by the LLM. If the
+    desired model requires a chat template (e.g.,
+    [CodeLlama 13B Instruct](https://huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf)),
+    you may want to use `DartmouthChatModel` instead.
     """
 
     authenticator: Callable = None
@@ -24,7 +29,7 @@ class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name="llama-2-13b-chat-hf",
+        model_name="codellama-13b-hf",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
@@ -36,7 +41,7 @@ class DartmouthChatModel(HuggingFaceTextGenInference, AuthenticatedMixin):
         Args:
             dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
                 If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-            model_name (str, optional): Name of the model to use. Defaults to "llama-2-13b-chat-hf".
+            model_name (str, optional): Name of the model to use. Defaults to "codellama-13b-hf".
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
             inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to "https://ai-api.dartmouth.edu/tgi/".
