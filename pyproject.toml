@@ -17,6 +17,7 @@ dependencies = [
     "langchain",
     "langchain_community",
     "langchain_huggingface",
+    "langchain_openai",
     "text_generation",
     "python-dotenv",
 ]
@@ -24,3 +25,10 @@ dependencies = [
 [project.urls]
 Homepage = "https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain"
 Issues = "https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain/-/issues"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q"
+testpaths =[
+   "tests"
+]

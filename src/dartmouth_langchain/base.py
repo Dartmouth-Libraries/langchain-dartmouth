@@ -12,12 +12,27 @@ class AuthenticatedMixin:
                 dartmouth_api_key=self.dartmouth_api_key, jwt_url=jwt_url
             )
         auth_header = {"Authorization": f"Bearer {jwt}"}
-        if self.client.headers is not None:
-            self.client.headers.update(auth_header)
-        else:
-            self.client.headers = auth_header
-        if hasattr(self, "async_client"):
-            if self.async_client.headers is not None:
-                self.async_client.headers.update(auth_header)
+        self._set_extra_headers(auth_header)
+
+    def _set_extra_headers(self, headers):
+        if hasattr(self.client, "headers"):
+            if self.client.headers is not None:
+                self.client.headers.update(headers)
             else:
-                self.async_client.headers = auth_header
+                self.client.headers = headers
+        if hasattr(self.client, "_client"):
+            if self.client._client._custom_headers is not None:
+                self.client._client._custom_headers.update(headers)
+            else:
+                self.client._client._custom_headers = headers
+        if hasattr(self, "async_client"):
+            if hasattr(self.async_client, "headers"):
+                if self.async_client.headers is not None:
+                    self.async_client.headers.update(headers)
+                else:
+                    self.async_client.headers = headers
+            if hasattr(self.async_client, "_client"):
+                if self.async_client._client._custom_headers is not None:
+                    self.async_client._client._custom_headers.update(headers)
+                else:
+                    self.async_client._client._custom_headers = headers
