@@ -37,13 +37,23 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 
 .. code-block:: python
 
-    from dartmouth_langchain import DartmouthChatModel
+    from dartmouth_langchain.llms import DartmouthLLM
 
+    llm = DartmouthLLM(model_name="codellama-13b-hf")
 
-    llm = DartmouthChatModel()
+    response = llm.invoke("Write a Python script to swap two variables."")
+    print(response)
 
-    llm.invoke("<s>[INST] Hi there! [/INST]")
+.. code-block:: python
+
+    from dartmouth_langchain.llms import ChatDartmouth
+
+    llm = ChatDartmouth(model_name="llama-3-8b-instruct")
+
+    response = llm.invoke("Hi there!")
+
+    print(response.content)
 
 .. note::
 
-    Many chat models require the prompts to have a particular formatting to work correctly! The default model is a chat model from the Llama 2 family and thus `requires the tags shown in the example <https://gpus.llm-utils.org/llama-2-prompt-template/>`_ above.
+    The required prompt format is enforced automatically when you are using ``ChatDartmouth``.

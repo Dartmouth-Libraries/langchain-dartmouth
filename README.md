@@ -16,19 +16,53 @@ pip install dartmouth-langchain
 export DARTMOUTH_API_KEY=<your_key_here>
 ```
 
+## What is this?
+
+This library provides an integration of Darmouth-hosted generative AI resources with [the LangChain framework](https://python.langchain.com/v0.1/docs/get_started/introduction).
+
+There are three main components currently implemened:
+
+- Large Language Models
+- Embedding models
+- Reranking models
+
+All of these components are based on corresponding LangChain base classes and can be used seamlessly wherever the corresponding LangChain objects can be used.
+
 ## Using the library
+
+### Large Language Models
+
+There are two kinds of Large Language Models (LLMs) hosted by Dartmouth:
+
+- Base models without instruction tuning (require no special prompt format)
+- Instruction-tuned models (also known as Chat models) requiring [specific prompt formats](https://llama.meta.com/docs/model-cards-and-prompt-formats/meta-llama-3/)
+
+Using a Dartmouth-hosted base language model:
+
+```{python}
+from dartmouth_langchain.llms import DartmouthLLM
+
+llm = DartmouthLLM(model_name="codellama-13b-hf")
+
+response = llm.invoke("Write a Python script to swap two variables.")
+print(response)
+```
 
 Using a Dartmouth-hosted chat model:
 
 ```{python}
-from dartmouth_langchain import DartmouthChatModel
+from dartmouth_langchain.llms import ChatDartmouth
 
 
-llm = DartmouthChatModel()
+llm = ChatDartmouth(model_name="llama-3-8b-instruct")
 
-llm.invoke("<s>[INST] Hi there! [/INST]")
+response = llm.invoke("Hi there!")
+
+print(response.content)
 ```
-> **Note:** Many chat models require the prompts to have a particular formatting to work correctly! The default model is a chat model from the Llama 2 family and thus [requires the tags shown in the example](https://gpus.llm-utils.org/llama-2-prompt-template/) above.
+> **Note**: The required prompt format is enforced automatically when you are using `ChatDartmouth`.
+
+### Embeddings model
 
 Using a Dartmouth-hosted embeddings model:
 
@@ -41,3 +75,28 @@ embeddings = DartmouthEmbeddingsModel()
 embeddings.embed_query("Hello? Is there anybody in there?")
 ```
 
+### Reranking
+
+Using a Dartmouth-hosted reranking model:
+
+```{python}
+from dartmouth_langchain.retrievers.document_compressors import DartmouthReranker
+from langchain.docstore.document import Document
+
+
+docs = [
+    Document(page_content="Deep Learning is not..."),
+    Document(page_content="Deep learning is..."),
+    ]
+
+query = "What is Deep Learning?"
+reranker = DartmouthReranker(model_name="bge-reranker-v2-m3")
+ranked_docs = reranker.compress_documents(query=query, documents=docs)
+
+print(ranked_docs)
+```
+
+
+## Available models
+
+For a list of available models, check the documentation of the RESTful [Dartmouth AI API](https://ai.dartmouth.edu/openapi/index.html).
