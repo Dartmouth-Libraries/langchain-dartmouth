@@ -28,7 +28,7 @@ Issues = "https://github.com/Dartmouth-Libraries/dartmouth-langchain/issues"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-#addopts = "-ra -q"
+addopts = "-ra -q"
 testpaths =[
    "tests"
 ]
