@@ -29,7 +29,7 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name="codellama-13b-hf",
+        model_name="codellama-13b-python-hf",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
@@ -87,7 +87,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
 
     Use this class if you want to use a model that uses a chat template
     (e.g.,
-    [CodeLlama 13B Instruct](https://huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf)).
+    [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/meta-llama-3.1-8b-instruct)).
 
     All prompts are automatically formatted to adhere to the chosen model's
     chat template. If you need more control over the exact string sent to the model,
@@ -105,7 +105,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name="codellama-13b-instruct-hf",
+        model_name="llama-3-1-8b-instruct",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
@@ -117,7 +117,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         Args:
             dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
                 If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-            model_name (str, optional): Name of the model to use. Defaults to "codellama-13b-instruct-hf".
+            model_name (str, optional): Name of the model to use. Defaults to "llama-3-1-8b-instruct".
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
             inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to "https://ai-api.dartmouth.edu/tgi/".

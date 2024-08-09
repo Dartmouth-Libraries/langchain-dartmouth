@@ -23,12 +23,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain"
-Issues = "https://git.dartmouth.edu/lib-digital-strategies/RDS/projects/dartmouth-langchain/-/issues"
+Homepage = "https://github.com/Dartmouth-Libraries/dartmouth-langchain"
+Issues = "https://github.com/Dartmouth-Libraries/dartmouth-langchain/issues"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
-addopts = "-ra -q"
+#addopts = "-ra -q"
 testpaths =[
    "tests"
 ]
