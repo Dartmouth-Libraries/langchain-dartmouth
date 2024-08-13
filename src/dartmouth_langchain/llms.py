@@ -1,5 +1,6 @@
 from langchain_community.llms import HuggingFaceTextGenInference
 from langchain_openai.chat_models import ChatOpenAI
+from langchain_core.messages import BaseMessage
 from dartmouth_langchain.definitions import LLM_BASE_URL
 from dartmouth_langchain.base import AuthenticatedMixin
 
@@ -134,7 +135,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         self.jwt_url = jwt_url
         self.authenticate(jwt_url=self.jwt_url)
 
-    def invoke(self, *args, **kwargs) -> str:
+    def invoke(self, *args, **kwargs) -> BaseMessage:
         """Invokes the model to get a response to a query."""
         try:
             return super().invoke(*args, **kwargs)
@@ -142,7 +143,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
             self.authenticate(jwt_url=self.jwt_url)
             return super().invoke(*args, **kwargs)
 
-    async def ainvoke(self, *args, **kwargs) -> str:
+    async def ainvoke(self, *args, **kwargs) -> BaseMessage:
         """Invokes the model to get a response to a query."""
         try:
             return super().ainvoke(*args, **kwargs)
