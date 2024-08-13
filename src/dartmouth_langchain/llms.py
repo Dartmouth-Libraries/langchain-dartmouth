@@ -146,7 +146,9 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     async def ainvoke(self, *args, **kwargs) -> BaseMessage:
         """Invokes the model to get a response to a query."""
         try:
-            return super().ainvoke(*args, **kwargs)
+            response = await super().ainvoke(*args, **kwargs)
+            return response
         except KeyError:
             self.authenticate(jwt_url=self.jwt_url)
-            return super().ainvoke(*args, **kwargs)
+            response = await super().ainvoke(*args, **kwargs)
+            return response
