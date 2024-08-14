@@ -1,6 +1,6 @@
 from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 
-from typing import Callable
+from typing import Callable, Coroutine, List
 
 from dartmouth_langchain.base import AuthenticatedMixin
 from dartmouth_langchain.definitions import EMBEDDINGS_BASE_URL
@@ -48,3 +48,67 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)
+
+    def embed_query(self, text: str) -> List[float]:
+        """Call out to the embedding endpoint for embedding query text.
+
+        Args:
+            text: The text to embed.
+
+        Returns:
+            Embeddings for the text.
+        """
+        try:
+            return super().embed_query(text)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().embed_query(text)
+
+    def embed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Call out to the embedding endpoint for embedding search docs.
+
+        Args:
+            texts: The list of texts to embed.
+
+        Returns:
+            List of embeddings, one for each text.
+        """
+        try:
+            return super().embed_documents(texts)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().embed_documents(texts)
+
+    async def aembed_query(self, text: str) -> List[float]:
+        """Async Call to the embedding endpoint for embedding query text.
+
+        Args:
+            text: The text to embed.
+
+        Returns:
+            Embeddings for the text.
+        """
+        try:
+            response = await super().aembed_query(text)
+            return response
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            response = await super().aembed_query(text)
+            return response
+
+    async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Async Call to the embedding endpoint for embedding search docs.
+
+        Args:
+            texts: The list of texts to embed.
+
+        Returns:
+            List of embeddings, one for each text.
+        """
+        try:
+            response = await super().aembed_documents(texts)
+            return response
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            response = await super().aembed_documents(texts)
+            return response
