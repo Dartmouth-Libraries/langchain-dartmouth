@@ -139,7 +139,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         """Invokes the model to get a response to a query."""
         try:
             return super().invoke(*args, **kwargs)
-        except KeyError:
+        except Exception:
             self.authenticate(jwt_url=self.jwt_url)
             return super().invoke(*args, **kwargs)
 
@@ -148,7 +148,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         try:
             response = await super().ainvoke(*args, **kwargs)
             return response
-        except KeyError:
+        except Exception:
             self.authenticate(jwt_url=self.jwt_url)
             response = await super().ainvoke(*args, **kwargs)
             return response
