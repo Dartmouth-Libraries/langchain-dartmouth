@@ -158,17 +158,21 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
 
     def stream(self, *args, **kwargs) -> Iterator[BaseMessageChunk]:
         try:
-            return super().stream(*args, **kwargs)
+            for chunk in super().stream(*args, **kwargs):
+                yield chunk
         except Exception:
             self.authenticate(jwt_url=self.jwt_url)
-            return super().stream(*args, **kwargs)
+            for chunk in super().stream(*args, **kwargs):
+                yield chunk
 
     async def astream(self, *args, **kwargs) -> AsyncIterator[BaseMessageChunk]:
         try:
-            return super().astream(*args, **kwargs)
+            async for chunk in super().astream(*args, **kwargs):
+                yield chunk
         except Exception:
             self.authenticate(jwt_url=self.jwt_url)
-            return super().astream(*args, **kwargs)
+            async for chunk in super().astream(*args, **kwargs):
+                yield chunk
 
     def generate(self, *args, **kwargs) -> LLMResult:
         try:
