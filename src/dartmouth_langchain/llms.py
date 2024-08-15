@@ -1,10 +1,13 @@
+from uuid import UUID
 from langchain_community.llms import HuggingFaceTextGenInference
+from langchain_core.outputs import LLMResult
+from langchain_core.runnables import RunnableConfig
 from langchain_openai.chat_models import ChatOpenAI
-from langchain_core.messages import BaseMessage
+from langchain_core.messages import BaseMessage, BaseMessageChunk
 from dartmouth_langchain.definitions import LLM_BASE_URL
 from dartmouth_langchain.base import AuthenticatedMixin
 
-from typing import Callable
+from typing import AsyncIterator, Callable, Coroutine, Dict, Iterator, List
 
 
 class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
@@ -151,4 +154,34 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         except Exception:
             self.authenticate(jwt_url=self.jwt_url)
             response = await super().ainvoke(*args, **kwargs)
+            return response
+
+    def stream(self, *args, **kwargs) -> Iterator[BaseMessageChunk]:
+        try:
+            return super().stream(*args, **kwargs)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().stream(*args, **kwargs)
+
+    async def astream(self, *args, **kwargs) -> AsyncIterator[BaseMessageChunk]:
+        try:
+            return super().astream(*args, **kwargs)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().astream(*args, **kwargs)
+
+    def generate(self, *args, **kwargs) -> LLMResult:
+        try:
+            return super().generate(*args, **kwargs)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().generate(*args, **kwargs)
+
+    async def agenerate(self, *args, **kwargs) -> LLMResult:
+        try:
+            response = await super().agenerate(*args, **kwargs)
+            return response
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            response = await super().agenerate(*args, **kwargs)
             return response
