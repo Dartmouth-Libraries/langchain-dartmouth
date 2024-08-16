@@ -2,8 +2,8 @@ from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 
 from typing import Callable, List
 
-from dartmouth_langchain.base import AuthenticatedMixin
-from dartmouth_langchain.definitions import EMBEDDINGS_BASE_URL
+from langchain_dartmouth.base import AuthenticatedMixin
+from langchain_dartmouth.definitions import EMBEDDINGS_BASE_URL
 
 
 class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):

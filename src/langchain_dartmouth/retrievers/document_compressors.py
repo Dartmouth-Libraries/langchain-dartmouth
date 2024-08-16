@@ -5,9 +5,9 @@ from langchain_core.pydantic_v1 import Extra, Field
 import operator
 from typing import Callable, Optional, Sequence
 
-from dartmouth_langchain.base import AuthenticatedMixin
-from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
-from dartmouth_langchain.definitions import RERANK_BASE_URL
+from langchain_dartmouth.base import AuthenticatedMixin
+from langchain_dartmouth.cross_encoders import TextEmbeddingInferenceClient
+from langchain_dartmouth.definitions import RERANK_BASE_URL
 
 
 class TeiCrossEncoderReranker(BaseDocumentCompressor):

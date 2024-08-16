@@ -4,8 +4,8 @@ from langchain_core.outputs import LLMResult
 from langchain_core.runnables import RunnableConfig
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.messages import BaseMessage, BaseMessageChunk
-from dartmouth_langchain.definitions import LLM_BASE_URL
-from dartmouth_langchain.base import AuthenticatedMixin
+from langchain_dartmouth.definitions import LLM_BASE_URL
+from langchain_dartmouth.base import AuthenticatedMixin
 
 from typing import AsyncIterator, Callable, Coroutine, Dict, Iterator, List
 

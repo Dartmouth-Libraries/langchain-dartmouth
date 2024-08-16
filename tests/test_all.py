@@ -1,9 +1,9 @@
 import pytest
 
-from dartmouth_langchain.llms import DartmouthLLM, ChatDartmouth, DartmouthChatModel
-from dartmouth_langchain.embeddings import DartmouthEmbeddings
-from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
-from dartmouth_langchain.retrievers.document_compressors import (
+from langchain_dartmouth.llms import DartmouthLLM, ChatDartmouth, DartmouthChatModel
+from langchain_dartmouth.embeddings import DartmouthEmbeddings
+from langchain_dartmouth.cross_encoders import TextEmbeddingInferenceClient
+from langchain_dartmouth.retrievers.document_compressors import (
     TeiCrossEncoderReranker,
     DartmouthReranker,
 )

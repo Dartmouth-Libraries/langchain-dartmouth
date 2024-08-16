@@ -1,5 +1,5 @@
 [project]
-name = "dartmouth_langchain"
+name = "langchain_dartmouth"
 version = "0.2.6"
 authors = [
   { name="Simon Stone", email="simon.stone@dartmouth.edu" },
@@ -23,8 +23,8 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Dartmouth-Libraries/dartmouth-langchain"
-Issues = "https://github.com/Dartmouth-Libraries/dartmouth-langchain/issues"
+Homepage = "https://github.com/Dartmouth-Libraries/langchain-dartmouth"
+Issues = "https://github.com/Dartmouth-Libraries/langchain-dartmouth/issues"
 
 [tool.pytest.ini_options]
 minversion = "6.0"
