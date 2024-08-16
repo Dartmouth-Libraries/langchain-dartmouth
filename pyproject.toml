@@ -20,6 +20,14 @@ dependencies = [
     "langchain_openai",
     "text_generation",
     "python-dotenv",
+
+]
+license = {file = "LICENSE"}
+
+[project.optional-dependencies]
+docs = ["sphinx"]
+dev = [
+  "pytest",
 ]
 
 [project.urls]

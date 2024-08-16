@@ -1,6 +1,3 @@
-API
-===============================================
-
 Embeddings
 ===============================================
 
@@ -57,3 +54,10 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 .. note::
 
     The required prompt format is enforced automatically when you are using ``ChatDartmouth``.
+
+
+Reranking
+===============================================
+
+.. automodule:: langchain_dartmouth.retrievers.document_compressors
+    :members:
