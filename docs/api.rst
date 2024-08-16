@@ -4,7 +4,7 @@ API
 Embeddings
 ===============================================
 
-.. automodule:: dartmouth_langchain.embeddings
+.. automodule:: langchain_dartmouth.embeddings
     :members:
     :inherited-members:
     :exclude-members: Config, construct, copy, dict, json, repo_id, task, update_forward_refs, validate_environment
@@ -16,7 +16,7 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 
 .. code-block:: python
 
-    from dartmouth_langchain import DartmouthEmbeddingsModel
+    from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
 
 
     embeddings = DartmouthEmbeddingsModel()
@@ -27,7 +27,7 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 Large Language Models
 ===============================================
 
-.. automodule:: dartmouth_langchain.llms
+.. automodule:: langchain_dartmouth.llms
     :members:
 
 Example
@@ -37,7 +37,7 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 
 .. code-block:: python
 
-    from dartmouth_langchain.llms import DartmouthLLM
+    from langchain_dartmouth.llms import DartmouthLLM
 
     llm = DartmouthLLM(model_name="codellama-13b-hf")
 
@@ -46,7 +46,7 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 
 .. code-block:: python
 
-    from dartmouth_langchain.llms import ChatDartmouth
+    from langchain_dartmouth.llms import ChatDartmouth
 
     llm = ChatDartmouth(model_name="llama-3-8b-instruct")
 

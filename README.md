@@ -40,7 +40,7 @@ There are two kinds of Large Language Models (LLMs) hosted by Dartmouth:
 Using a Dartmouth-hosted base language model:
 
 ```{python}
-from dartmouth_langchain.llms import DartmouthLLM
+from langchain_dartmouth.llms import DartmouthLLM
 
 llm = DartmouthLLM(model_name="codellama-13b-hf")
 
@@ -51,7 +51,7 @@ print(response)
 Using a Dartmouth-hosted chat model:
 
 ```{python}
-from dartmouth_langchain.llms import ChatDartmouth
+from langchain_dartmouth.llms import ChatDartmouth
 
 
 llm = ChatDartmouth(model_name="llama-3-8b-instruct")
@@ -67,7 +67,7 @@ print(response.content)
 Using a Dartmouth-hosted embeddings model:
 
 ```{python}
-from dartmouth_langchain import DartmouthEmbeddingsModel
+from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
 
 
 embeddings = DartmouthEmbeddingsModel()
@@ -80,7 +80,7 @@ embeddings.embed_query("Hello? Is there anybody in there?")
 Using a Dartmouth-hosted reranking model:
 
 ```{python}
-from dartmouth_langchain.retrievers.document_compressors import DartmouthReranker
+from langchain_dartmouth.retrievers.document_compressors import DartmouthReranker
 from langchain.docstore.document import Document
 
 
