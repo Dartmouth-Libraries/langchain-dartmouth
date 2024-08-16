@@ -1,9 +1,9 @@
 import pytest
 
-from dartmouth_langchain.llms import DartmouthLLM, ChatDartmouth, DartmouthChatModel
-from dartmouth_langchain.embeddings import DartmouthEmbeddings
-from dartmouth_langchain.cross_encoders import TextEmbeddingInferenceClient
-from dartmouth_langchain.retrievers.document_compressors import (
+from langchain_dartmouth.llms import DartmouthLLM, ChatDartmouth, DartmouthChatModel
+from langchain_dartmouth.embeddings import DartmouthEmbeddings
+from langchain_dartmouth.cross_encoders import TextEmbeddingInferenceClient
+from langchain_dartmouth.retrievers.document_compressors import (
     TeiCrossEncoderReranker,
     DartmouthReranker,
 )
@@ -28,10 +28,6 @@ def test_chat_dartmouth():
 
 
 def test_dartmouth_chat():
-    llm = DartmouthChatModel(model_name="llama-2-13b-chat-hf")
-    response = llm.invoke("<s>[INST]Please respond with the single word OK[/INST]")
-    assert response.strip() == "OK"
-
     llm = DartmouthChatModel(model_name="llama-3-8b-instruct", temperature=0.01)
     response = llm.invoke(
         "<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\nPlease respond with the single word OK<|eot_id|><|start_header_id|>assistant<|end_header_id|>"

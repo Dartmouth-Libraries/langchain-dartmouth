@@ -1,9 +1,13 @@
+from uuid import UUID
 from langchain_community.llms import HuggingFaceTextGenInference
+from langchain_core.outputs import LLMResult
+from langchain_core.runnables import RunnableConfig
 from langchain_openai.chat_models import ChatOpenAI
-from dartmouth_langchain.definitions import LLM_BASE_URL
-from dartmouth_langchain.base import AuthenticatedMixin
+from langchain_core.messages import BaseMessage, BaseMessageChunk
+from langchain_dartmouth.definitions import LLM_BASE_URL
+from langchain_dartmouth.base import AuthenticatedMixin
 
-from typing import Callable
+from typing import AsyncIterator, Callable, Coroutine, Dict, Iterator, List
 
 
 class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
@@ -29,7 +33,7 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name="codellama-13b-hf",
+        model_name="codellama-13b-python-hf",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
@@ -87,7 +91,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
 
     Use this class if you want to use a model that uses a chat template
     (e.g.,
-    [CodeLlama 13B Instruct](https://huggingface.co/meta-llama/CodeLlama-13b-Instruct-hf)).
+    [Llama 3.1 8B Instruct](https://huggingface.co/meta-llama/meta-llama-3.1-8b-instruct)).
 
     All prompts are automatically formatted to adhere to the chosen model's
     chat template. If you need more control over the exact string sent to the model,
@@ -105,7 +109,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         self,
         *args,
         dartmouth_api_key: str = None,
-        model_name="codellama-13b-instruct-hf",
+        model_name="llama-3-1-8b-instruct",
         authenticator: Callable = None,
         jwt_url: str = None,
         inference_server_url: str = None,
@@ -117,7 +121,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         Args:
             dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
                 If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-            model_name (str, optional): Name of the model to use. Defaults to "codellama-13b-instruct-hf".
+            model_name (str, optional): Name of the model to use. Defaults to "llama-3-1-8b-instruct".
             authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
                 If specified, `dartmouth_api_key` is ignored.
             inference_server_url (str, optional): URL pointing to an inference endpoint. Defaults to "https://ai-api.dartmouth.edu/tgi/".
@@ -134,18 +138,54 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         self.jwt_url = jwt_url
         self.authenticate(jwt_url=self.jwt_url)
 
-    def invoke(self, *args, **kwargs) -> str:
+    def invoke(self, *args, **kwargs) -> BaseMessage:
         """Invokes the model to get a response to a query."""
         try:
             return super().invoke(*args, **kwargs)
-        except KeyError:
+        except Exception:
             self.authenticate(jwt_url=self.jwt_url)
             return super().invoke(*args, **kwargs)
 
-    async def ainvoke(self, *args, **kwargs) -> str:
+    async def ainvoke(self, *args, **kwargs) -> BaseMessage:
         """Invokes the model to get a response to a query."""
         try:
-            return super().ainvoke(*args, **kwargs)
-        except KeyError:
+            response = await super().ainvoke(*args, **kwargs)
+            return response
+        except Exception:
             self.authenticate(jwt_url=self.jwt_url)
-            return super().ainvoke(*args, **kwargs)
+            response = await super().ainvoke(*args, **kwargs)
+            return response
+
+    def stream(self, *args, **kwargs) -> Iterator[BaseMessageChunk]:
+        try:
+            for chunk in super().stream(*args, **kwargs):
+                yield chunk
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            for chunk in super().stream(*args, **kwargs):
+                yield chunk
+
+    async def astream(self, *args, **kwargs) -> AsyncIterator[BaseMessageChunk]:
+        try:
+            async for chunk in super().astream(*args, **kwargs):
+                yield chunk
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            async for chunk in super().astream(*args, **kwargs):
+                yield chunk
+
+    def generate(self, *args, **kwargs) -> LLMResult:
+        try:
+            return super().generate(*args, **kwargs)
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            return super().generate(*args, **kwargs)
+
+    async def agenerate(self, *args, **kwargs) -> LLMResult:
+        try:
+            response = await super().agenerate(*args, **kwargs)
+            return response
+        except Exception:
+            self.authenticate(jwt_url=self.jwt_url)
+            response = await super().agenerate(*args, **kwargs)
+            return response

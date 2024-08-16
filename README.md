@@ -40,7 +40,7 @@ There are two kinds of Large Language Models (LLMs) hosted by Dartmouth:
 Using a Dartmouth-hosted base language model:
 
 ```{python}
-from dartmouth_langchain.llms import DartmouthLLM
+from langchain_dartmouth.llms import DartmouthLLM
 
 llm = DartmouthLLM(model_name="codellama-13b-hf")
 
@@ -51,7 +51,7 @@ print(response)
 Using a Dartmouth-hosted chat model:
 
 ```{python}
-from dartmouth_langchain.llms import ChatDartmouth
+from langchain_dartmouth.llms import ChatDartmouth
 
 
 llm = ChatDartmouth(model_name="llama-3-8b-instruct")
@@ -67,7 +67,7 @@ print(response.content)
 Using a Dartmouth-hosted embeddings model:
 
 ```{python}
-from dartmouth_langchain import DartmouthEmbeddingsModel
+from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
 
 
 embeddings = DartmouthEmbeddingsModel()
@@ -80,7 +80,7 @@ embeddings.embed_query("Hello? Is there anybody in there?")
 Using a Dartmouth-hosted reranking model:
 
 ```{python}
-from dartmouth_langchain.retrievers.document_compressors import DartmouthReranker
+from langchain_dartmouth.retrievers.document_compressors import DartmouthReranker
 from langchain.docstore.document import Document
 
 
@@ -100,3 +100,18 @@ print(ranked_docs)
 ## Available models
 
 For a list of available models, check the documentation of the RESTful [Dartmouth AI API](https://ai.dartmouth.edu/openapi/index.html).
+
+
+## License
+<table >
+<tbody>
+  <tr>
+    <td style="padding:0px;border-width:0px;vertical-align:center">
+    Created by Simon Stone for Dartmouth College Libraries under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons CC BY-NC 4.0 License</a>.<br>For questions, comments, or improvements, email <a href="mailto:researchdatahelp@groups.dartmouth.edu">Research Data Services</a>.
+    </td>
+    <td style="padding:0 0 0 1em;border-width:0px;vertical-align:center"><img alt="Creative Commons License" src="https://i.creativecommons.org/l/by/4.0/88x31.png"/></td>
+  </tr>
+</tbody>
+</table>
+
+Except where otherwise noted, the example programs are made available under the OSI-approved MIT license.
