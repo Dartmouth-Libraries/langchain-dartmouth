@@ -73,6 +73,8 @@ from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
 embeddings = DartmouthEmbeddingsModel()
 
 embeddings.embed_query("Hello? Is there anybody in there?")
+
+print(response)
 ```
 
 ### Reranking

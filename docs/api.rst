@@ -3,8 +3,6 @@ Embeddings
 
 .. automodule:: langchain_dartmouth.embeddings
     :members:
-    :inherited-members:
-    :exclude-members: Config, construct, copy, dict, json, repo_id, task, update_forward_refs, validate_environment
 
 Example
 -----------------------------------------------
@@ -18,7 +16,9 @@ With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key ob
 
     embeddings = DartmouthEmbeddingsModel()
 
-    embeddings.embed_query("Hello? Is there anybody in there?")
+    response = embeddings.embed_query("Hello? Is there anybody in there?")
+
+    print(response)
 
 
 Large Language Models
@@ -61,3 +61,24 @@ Reranking
 
 .. automodule:: langchain_dartmouth.retrievers.document_compressors
     :members:
+    :exclude-members: TeiCrossEncoderReranker
+
+Example
+-----------------------------------------------
+With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key obtained from `https://developer.dartmouth.edu <https://developer.dartmouth.edu>`_, using a Dartmouth-hosted Reranker only takes a few lines of code:
+
+.. code-block:: python
+
+    from langchain.docstore.document import Document
+
+    from langchain_dartmouth.retrievers.document_compressors import DartmouthReranker
+
+
+    docs = [
+        Document(page_content="Deep Learning is not..."),
+        Document(page_content="Deep learning is..."),
+    ]
+    query = "What is Deep Learning?"
+    reranker = DartmouthReranker()
+    ranked_docs = reranker.compress_documents(query=query, documents=docs)
+    print(ranked_docs)

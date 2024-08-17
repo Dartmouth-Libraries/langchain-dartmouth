@@ -1,6 +1,5 @@
 ``langchain_dartmouth`` -- LangChain components for Dartmouth's on-premise models
 =================================================================================
-
 This package contains components to facilitate the use of models deployed in Dartmouth College's compute infrastructure. The components are fully compatible with `LangChain <https://python.langchain.com/>`_, allowing seamless integration and plug-and-play compatibility with the vast number of components in the ecosystem.
 
 There are three main components currently implemented:
@@ -30,11 +29,15 @@ Even though you can pass your key to each component using the ``dartmouth_api_ke
    :maxdepth: 2
    :caption: API Reference
 
+Feedback and Comments
+======================
+For questions, comments, or improvements, email `Research Data Services <mailto:researchdatahelp@groups.dartmouth.edu>`_.
 
 
-Indices and Tables
+License
 ==================
+Created by Simon Stone for Dartmouth College Libraries under `Creative Commons CC BY-NC 4.0 License <https://creativecommons.org/licenses/by/4.0/>`_
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+.. image:: https://i.creativecommons.org/l/by/4.0/88x31.png
+
+Except where otherwise noted, the example programs are made available under the OSI-approved MIT license.
