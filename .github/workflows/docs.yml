@@ -14,7 +14,8 @@ jobs:
       - name: Install dependencies
         run: |
           ls -al
-          pip install ..
+          cat pyproject.toml
+          pip install -e ".[docs]"
       - name: Sphinx build
         run: |
           sphinx-build docs _build
