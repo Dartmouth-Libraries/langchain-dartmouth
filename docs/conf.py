@@ -1,6 +1,5 @@
 import os
 import sys
-from importlib.metadata import version
 
 sys.path.insert(0, os.path.abspath("../src/langchain_dartmouth/"))
 
@@ -10,7 +9,7 @@ sys.path.insert(0, os.path.abspath("../src/langchain_dartmouth/"))
 project = "langchain_dartmouth"
 copyright = "by Simon Stone for Dartmouth College Libraries under Creative Commons CC BY-NC 4.0 License"
 author = "Simon Stone"
-release = version("langchain_dartmouth")
+release = "0.2.8"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
