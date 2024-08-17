@@ -14,7 +14,7 @@ jobs:
       - name: Install dependencies
         run: |
           pip install setuptools --upgrade
-          pip install .[docs]
+          pip install .
       - name: Sphinx build
         run: |
           sphinx-build docs _build
