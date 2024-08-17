@@ -13,8 +13,6 @@ jobs:
       - uses: actions/setup-python@v5
       - name: Install dependencies
         run: |
-          ls -al
-          cat pyproject.toml
           pip install -e ".[docs]"
       - name: Sphinx build
         run: |
