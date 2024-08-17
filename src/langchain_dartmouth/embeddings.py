@@ -1,62 +1,59 @@
 from langchain_huggingface.embeddings import HuggingFaceEndpointEmbeddings
 
-from typing import Callable, List
+from typing import Callable, List, Optional
 
 from langchain_dartmouth.base import AuthenticatedMixin
 from langchain_dartmouth.definitions import EMBEDDINGS_BASE_URL
 
 
 class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
-    """
-    Extends the LangChain class HuggingFaceEndpointEmbeddings for more convenient
-    interaction with Dartmouth's instance of Text Embeddings Inference
+    """Embedding models deployed on Dartmouth's cluster.
+
+    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+    :type dartmouth_api_key: str, optional
+    :param model_name: The name of the embedding model to use, defaults to ``"bge-large-en-v1-5"``.
+    :type model_name: str, optional
+    :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
+    :type authenticator: Callable, optional
+    :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).
+    :type jwt_url: str, optional
+    :param embeddings_server_url: URL pointing to an embeddings endpoint, defaults to ``"https://ai-api.dartmouth.edu/tei/"``.
+    :type embeddings_server_url: str, optional
+    :param model_kwargs: Keyword arguments to pass to the model.
+    :type model_kwargs: dict, optional
     """
 
-    authenticator: Callable = None
-    """A Callable returning a JSON Web Token (JWT) for authentication"""
-    dartmouth_api_key: str = None
-    """A Dartmouth API key (obtainable from https://developer.dartmouth.edu)"""
-    jwt_url: str = None
-    """URL of the Dartmouth API endpoint returning a JSON Web Token (JWT)"""
-    embeddings_server_url: str = None
-    """URL of the Dartmouth embeddings provider """
+    authenticator: Optional[Callable] = None
+    dartmouth_api_key: Optional[str] = None
+    jwt_url: Optional[str] = None
+    embeddings_server_url: Optional[str] = None
 
     def __init__(
         self,
-        dartmouth_api_key: str = None,
-        model_name="bge-large-en-v1-5",
-        authenticator: Callable = None,
-        jwt_url: str = None,
-        embeddings_server_url: str = None,
+        dartmouth_api_key: Optional[str] = None,
+        model_name: str = "bge-large-en-v1-5",
+        authenticator: Optional[Callable] = None,
+        jwt_url: Optional[str] = None,
+        embeddings_server_url: Optional[str] = None,
+        model_kwargs: Optional[dict] = None,
     ):
-        """
-        Initializes the object
-
-        Args:
-            dartmouth_api_key (str, optional): A valid Dartmouth API key (see https://developer.dartmouth.edu/keys).
-                If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-            model_name (str, optional): Name of the model to use. Defaults to "bge-large-en-v1-5".
-            authenticator (Callable, optional): A Callable that returns a valid JWT to use for authentication.
-                If specified, `dartmouth_api_key` is ignored.
-            embeddings_server_url (str, optional): URL pointing to an embeddings endpoint. Defaults to "https://ai-api.dartmouth.edu/tei/".
-        """
+        """Initializes the object"""
         if embeddings_server_url:
             endpoint = f"{embeddings_server_url}{model_name}/"
         else:
             endpoint = f"{EMBEDDINGS_BASE_URL}{model_name}/"
-        super().__init__(model=endpoint)
+        super().__init__(model=endpoint, model_kwargs=model_kwargs)
         self.authenticator = authenticator
         self.dartmouth_api_key = dartmouth_api_key
         self.authenticate(jwt_url=jwt_url)
 
     def embed_query(self, text: str) -> List[float]:
-        """Call out to the embedding endpoint for embedding query text.
+        """Call out to the embedding endpoint to retrieve the embedding of the query text.
 
-        Args:
-            text: The text to embed.
-
-        Returns:
-            Embeddings for the text.
+        :param text: The text to embed.
+        :type text: str
+        :return: Embeddings for the text.
+        :rtype: List[float]
         """
         try:
             return super().embed_query(text)
@@ -65,13 +62,12 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
             return super().embed_query(text)
 
     def embed_documents(self, texts: List[str]) -> List[List[float]]:
-        """Call out to the embedding endpoint for embedding search docs.
+        """Call out to the embedding endpoint to retrieve the embeddings of multiple texts.
 
-        Args:
-            texts: The list of texts to embed.
-
-        Returns:
-            List of embeddings, one for each text.
+        :param text: The list of texts to embed.
+        :type text: str
+        :return: Embeddings for the texts.
+        :rtype: List[List[float]]
         """
         try:
             return super().embed_documents(texts)
@@ -80,13 +76,12 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
             return super().embed_documents(texts)
 
     async def aembed_query(self, text: str) -> List[float]:
-        """Async Call to the embedding endpoint for embedding query text.
+        """Async Call to the embedding endpoint to retrieve the embedding of the query text.
 
-        Args:
-            text: The text to embed.
-
-        Returns:
-            Embeddings for the text.
+        :param text: The text to embed.
+        :type text: str
+        :return: Embeddings for the text.
+        :rtype: List[float]
         """
         try:
             response = await super().aembed_query(text)
@@ -97,13 +92,12 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
             return response
 
     async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
-        """Async Call to the embedding endpoint for embedding search docs.
+        """Async Call to the embedding endpoint to retrieve the embeddings of multiple texts.
 
-        Args:
-            texts: The list of texts to embed.
-
-        Returns:
-            List of embeddings, one for each text.
+        :param text: The list of texts to embed.
+        :type text: str
+        :return: Embeddings for the texts.
+        :rtype: List[List[float]]
         """
         try:
             response = await super().aembed_documents(texts)

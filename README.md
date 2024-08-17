@@ -20,7 +20,7 @@ export DARTMOUTH_API_KEY=<your_key_here>
 
 This library provides an integration of Darmouth-hosted generative AI resources with [the LangChain framework](https://python.langchain.com/v0.1/docs/get_started/introduction).
 
-There are three main components currently implemened:
+There are three main components currently implemented:
 
 - Large Language Models
 - Embedding models
@@ -73,6 +73,8 @@ from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
 embeddings = DartmouthEmbeddingsModel()
 
 embeddings.embed_query("Hello? Is there anybody in there?")
+
+print(response)
 ```
 
 ### Reranking
