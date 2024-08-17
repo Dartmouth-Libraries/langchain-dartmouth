@@ -9,6 +9,7 @@ from langchain_dartmouth.retrievers.document_compressors import (
 )
 
 from langchain.docstore.document import Document
+from langchain.schema import SystemMessage, HumanMessage
 
 from dotenv import load_dotenv, find_dotenv
 
@@ -25,6 +26,15 @@ def test_chat_dartmouth():
     llm = ChatDartmouth(model_name="llama-3-8b-instruct")
     response = llm.invoke("Please respond with the single word OK")
     assert response.content.strip() == "OK"
+
+    llm = ChatDartmouth(model_name="llama-3-1-8b-instruct")
+    response = llm.invoke(
+        [
+            SystemMessage(content="You are a cat."),
+            HumanMessage(content="What is your name?"),
+        ]
+    )
+    assert response.content
 
 
 def test_dartmouth_chat():
