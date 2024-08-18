@@ -5,7 +5,6 @@ from langchain_core.callbacks import (
 from langchain_community.llms import HuggingFaceTextGenInference
 from langchain_core.outputs import LLMResult
 from langchain_core.pydantic_v1 import Field
-from langchain_core.runnables import RunnableConfig
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.messages import BaseMessage, BaseMessageChunk
 from langchain_core.outputs import GenerationChunk
@@ -16,7 +15,6 @@ from typing import (
     Any,
     AsyncIterator,
     Callable,
-    Coroutine,
     Dict,
     Iterator,
     List,
@@ -35,20 +33,20 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     `Llama 3.1 Instruct <https://llama.meta.com/docs/model-cards-and-prompt-formats/llama3_1/>`_),
     you may want to use :class:`ChatDartmouth` instead.
 
-    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-    :type dartmouth_api_key: str, optional
     :param model_name: Name of the model to use, defaults to ``"codellama-13b-python-hf"``.
     :type model_name: str, optional
+    :param temperature: Temperature to use for sampling (higher temperature means more varied outputs), defaults to ``0.8``.
+    :type temperature: float, optional
     :param max_new_tokens: Maximum number of generated tokens, defaults to ``512``.
     :type max_new_tokens: int
+    :param streaming: Whether to generate a stream of tokens asynchronously, defaults to ``False``
+    :type streaming: bool
     :param top_k: The number of highest probability vocabulary tokens to keep for top-k-filtering.
     :type top_k: int, optional
     :param top_p: If set to < 1, only the smallest set of most probable tokens with probabilities that add up to ``top_p`` or higher are kept for generation, defaults to ``0.95``.
     :type top_p: float, optional
     :param typical_p: Typical Decoding mass. See `Typical Decoding for Natural Language Generation <https://arxiv.org/abs/2202.00666>`_ for more information, defaults to ``0.95``.
     :type typical_p: float, optional
-    :param temperature: Temperature to use for sampling (higher temperature means more varied outputs), defaults to ``0.8``.
-    :type temperature: float, optional
     :param repetition_penalty: The parameter for repetition penalty. 1.0 means no penalty. See `this paper <https://arxiv.org/pdf/1909.05858.pdf>`_ for more details.
     :type repetition_penalty: float, optional
     :param return_full_text: Whether to prepend the prompt to the generated text, defaults to ``False``
@@ -59,6 +57,14 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     :type stop_sequences: List[str], optional
     :param seed: Random sampling seed
     :type seed: int, optional
+    :param do_sample: Activate logits sampling, defaults to ``False``.
+    :type do_sample: bool
+    :param watermark: Watermarking with `A Watermark for Large Language Models <https://arxiv.org/abs/2301.10226>`_, defaults to ``False``
+    :type watermark: bool
+    :param model_kwargs: Parameters to pass to the model (see the documentation of LangChain's `HuggingFaceTextGenInference class <https://api.python.langchain.com/en/latest/llms/langchain_community.llms.huggingface_text_gen_inference.HuggingFaceTextGenInference.html>`_.)
+    :type model_kwargs: dict, optional
+    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+    :type dartmouth_api_key: str, optional
     :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
     :type authenticator: Callable, optional
     :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).
@@ -67,16 +73,8 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     :type inference_server_url: str
     :param timeout: Timeout in seconds, defaults to ``120``
     :type timeout: int
-    :param streaming: Whether to generate a stream of tokens asynchronously, defaults to ``False``
-    :type streaming: bool
-    :param do_sample: Activate logits sampling, defaults to ``False``.
-    :type do_sample: bool
-    :param watermark: Watermarking with `A Watermark for Large Language Models <https://arxiv.org/abs/2301.10226>`_, defaults to ``False``
-    :type watermark: bool
     :param server_kwargs: Holds any text-generation-inference server parameters not explicitly specified
     :type server_kwargs: dict, optional
-    :param model_kwargs: Parameters to pass to the model (see the documentation of LangChain's `HuggingFaceTextGenInference class <https://api.python.langchain.com/en/latest/llms/langchain_community.llms.huggingface_text_gen_inference.HuggingFaceTextGenInference.html>`_.)
-    :type model_kwargs: dict, optional
     """
 
     authenticator: Optional[Callable] = None
@@ -240,16 +238,10 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     chat template. If you need more control over the exact string sent to the model,
     you may want to use :class:`DartmouthLLM` instead.
 
-    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-    :type dartmouth_api_key: str, optional
     :param model_name: Name of the model to use, defaults to ``"llama-3-1-8b-instruct"``.
     :type model_name: str
-    :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
-    :type authenticator: Callable, optional
-    :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).
-    :type jwt_url: str, optional
-    :param inference_server_url: URL pointing to an inference endpoint, defaults to ``"https://ai-api.dartmouth.edu/tgi/"``.
-    :type inference_server_url: str, optional
+    :param streaming: Whether to stream the results or not, defaults to ``False``.
+    :type streaming: bool
     :param temperature: Temperature to use for sampling (higher temperature means more varied outputs), defaults to ``0.7``.
     :type temperature: float
     :param max_tokens: Maximum number of tokens to generate, defaults to 512
@@ -268,14 +260,20 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     :type top_logprobs: int, optional
     :param logit_bias: Modify the likelihood of specified tokens appearing in the completion.
     :type logit_bias: dict, optional
-    :param streaming: Whether to stream the results or not, defaults to ``False``.
-    :type streaming: bool
     :param n: Number of chat completions to generate for each prompt, defaults to ``1``
     :type n: int
     :param top_p: Total probability mass of tokens to consider at each step.
     :type top_p: float, optional
     :param model_kwargs: Holds any model parameters valid for ``create`` call not explicitly specified.
     :type model_kwargs: dict, optional
+    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+    :type dartmouth_api_key: str, optional
+    :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
+    :type authenticator: Callable, optional
+    :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).
+    :type jwt_url: str, optional
+    :param inference_server_url: URL pointing to an inference endpoint, defaults to ``"https://ai-api.dartmouth.edu/tgi/"``.
+    :type inference_server_url: str, optional
     """
 
     authenticator: Optional[Callable] = None

@@ -51,12 +51,12 @@ class TeiCrossEncoderReranker(BaseDocumentCompressor):
 class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
     """Reranks documents using a reranking model deployed in the Dartmouth cloud.
 
+    :param model_name: The name of the embedding model to use, defaults to ``"bge-reranker-v2-m3"``.
+    :type model_name: str, optional
     :param top_n: Number of documents to return, defaults to ``3``
     :type top_n: int
     :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
     :type dartmouth_api_key: str, optional
-    :param model_name: The name of the embedding model to use, defaults to ``"bge-reranker-v2-m3"``.
-    :type model_name: str, optional
     :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
     :type authenticator: Callable, optional
     :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).

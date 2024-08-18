@@ -9,18 +9,18 @@ from langchain_dartmouth.definitions import EMBEDDINGS_BASE_URL
 class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
     """Embedding models deployed on Dartmouth's cluster.
 
-    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
-    :type dartmouth_api_key: str, optional
     :param model_name: The name of the embedding model to use, defaults to ``"bge-large-en-v1-5"``.
     :type model_name: str, optional
-    :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
+    :param model_kwargs: Keyword arguments to pass to the model.
+    :type model_kwargs: dict, optional
+    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable ``DARTMOUTH_API_KEY``.
+    :type dartmouth_api_key: str, optional
+    :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication. Only needed for special use cases.
     :type authenticator: Callable, optional
     :param jwt_url: URL of the Dartmouth API endpoint returning a JSON Web Token (JWT).
     :type jwt_url: str, optional
     :param embeddings_server_url: URL pointing to an embeddings endpoint, defaults to ``"https://ai-api.dartmouth.edu/tei/"``.
     :type embeddings_server_url: str, optional
-    :param model_kwargs: Keyword arguments to pass to the model.
-    :type model_kwargs: dict, optional
     """
 
     authenticator: Optional[Callable] = None
