@@ -30,12 +30,12 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
 
     def __init__(
         self,
-        dartmouth_api_key: Optional[str] = None,
         model_name: str = "bge-large-en-v1-5",
+        model_kwargs: Optional[dict] = None,
+        dartmouth_api_key: Optional[str] = None,
         authenticator: Optional[Callable] = None,
         jwt_url: Optional[str] = None,
         embeddings_server_url: Optional[str] = None,
-        model_kwargs: Optional[dict] = None,
     ):
         """Initializes the object"""
         if embeddings_server_url:

@@ -55,7 +55,7 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
     :type model_name: str, optional
     :param top_n: Number of documents to return, defaults to ``3``
     :type top_n: int
-    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable DARTMOUTH_API_KEY.
+    :param dartmouth_api_key: A Dartmouth API key (obtainable from https://developer.dartmouth.edu). If not specified, it is attempted to be inferred from an environment variable ``DARTMOUTH_API_KEY``.
     :type dartmouth_api_key: str, optional
     :param authenticator: A Callable returning a JSON Web Token (JWT) for authentication.
     :type authenticator: Callable, optional
@@ -72,9 +72,9 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
 
     def __init__(
         self,
+        model_name: str = "bge-reranker-v2-m3",
         top_n: int = 3,
         dartmouth_api_key: str = None,
-        model_name: str = "bge-reranker-v2-m3",
         authenticator: Callable = None,
         jwt_url: str = None,
         embeddings_server_url: str = None,
