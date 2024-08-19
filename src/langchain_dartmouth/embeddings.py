@@ -21,6 +21,22 @@ class DartmouthEmbeddings(HuggingFaceEndpointEmbeddings, AuthenticatedMixin):
     :type jwt_url: str, optional
     :param embeddings_server_url: URL pointing to an embeddings endpoint, defaults to ``"https://ai-api.dartmouth.edu/tei/"``.
     :type embeddings_server_url: str, optional
+
+    Example
+    -----------
+
+    With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key obtained from `https://developer.dartmouth.edu <https://developer.dartmouth.edu>`_, using a Dartmouth-hosted embedding model only takes a few lines of code:
+
+    .. code-block:: python
+
+        from langchain_dartmouth.embeddings import DartmouthEmbeddingsModel
+
+
+        embeddings = DartmouthEmbeddingsModel()
+
+        response = embeddings.embed_query("Hello? Is there anybody in there?")
+
+        print(response)
     """
 
     authenticator: Optional[Callable] = None

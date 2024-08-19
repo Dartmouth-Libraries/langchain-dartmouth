@@ -63,6 +63,27 @@ class DartmouthReranker(TeiCrossEncoderReranker, AuthenticatedMixin):
     :type jwt_url: str, optional
     :param embeddings_server_url: URL pointing to an embeddings endpoint, defaults to ``"https://ai-api.dartmouth.edu/tei/"``.
     :type embeddings_server_url: str, optional
+
+    Example
+    ---------
+
+    With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key obtained from `https://developer.dartmouth.edu <https://developer.dartmouth.edu>`_, using a Dartmouth-hosted Reranker only takes a few lines of code:
+
+    .. code-block:: python
+
+        from langchain.docstore.document import Document
+
+        from langchain_dartmouth.retrievers.document_compressors import DartmouthReranker
+
+
+        docs = [
+            Document(page_content="Deep Learning is not..."),
+            Document(page_content="Deep learning is..."),
+        ]
+        query = "What is Deep Learning?"
+        reranker = DartmouthReranker()
+        ranked_docs = reranker.compress_documents(query=query, documents=docs)
+        print(ranked_docs)
     """
 
     authenticator: Callable = None

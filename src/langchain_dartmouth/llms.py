@@ -75,6 +75,20 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     :type timeout: int
     :param server_kwargs: Holds any text-generation-inference server parameters not explicitly specified
     :type server_kwargs: dict, optional
+
+    Example
+    --------
+
+    With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key obtained from `https://developer.dartmouth.edu <https://developer.dartmouth.edu>`_, using a Dartmouth-hosted LLM only takes a few lines of code:
+
+    .. code-block:: python
+
+        from langchain_dartmouth.llms import DartmouthLLM
+
+        llm = DartmouthLLM(model_name="codellama-13b-hf")
+
+        response = llm.invoke("Write a Python script to swap two variables."")
+        print(response)
     """
 
     authenticator: Optional[Callable] = None
@@ -274,6 +288,27 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     :type jwt_url: str, optional
     :param inference_server_url: URL pointing to an inference endpoint, defaults to ``"https://ai-api.dartmouth.edu/tgi/"``.
     :type inference_server_url: str, optional
+
+    Example
+    ----------
+
+    With an environment variable named ``DARTMOUTH_API_KEY`` pointing to your key obtained from `https://developer.dartmouth.edu <https://developer.dartmouth.edu>`_, using a Dartmouth-hosted LLM only takes a few lines of code:
+
+    .. code-block:: python
+
+        from langchain_dartmouth.llms import ChatDartmouth
+
+        llm = ChatDartmouth(model_name="llama-3-8b-instruct")
+
+        response = llm.invoke("Hi there!")
+
+        print(response.content)
+
+    .. note::
+
+        The required prompt format is enforced automatically when you are using ``ChatDartmouth``.
+
+
     """
 
     authenticator: Optional[Callable] = None
