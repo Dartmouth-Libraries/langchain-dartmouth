@@ -36,7 +36,10 @@ For questions, comments, or improvements, email `Research Data Services <mailto:
 
 License
 ==================
-Created by Simon Stone for Dartmouth College Libraries under `Creative Commons CC BY-NC 4.0 License <https://creativecommons.org/licenses/by/4.0/>`_
+Created by Simon Stone for Dartmouth Libraries under `Creative Commons CC BY-NC 4.0 License <https://creativecommons.org/licenses/by/4.0/>`_
+
+.. image:: _static/img/dartmouth-libraries-logo-light.png
+   :scale: 10%
 
 .. image:: https://i.creativecommons.org/l/by/4.0/88x31.png
 
