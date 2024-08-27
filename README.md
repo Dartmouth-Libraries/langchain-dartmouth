@@ -7,7 +7,7 @@ LangChain components for Dartmouth-hosted models.
 1. Install the package:
 
 ```
-pip install dartmouth-langchain
+pip install langchain_dartmouth
 ```
 
 2. Obtain a Dartmouth API key from [developer.dartmouth.edu](https://developer.dartmouth.edu/)
