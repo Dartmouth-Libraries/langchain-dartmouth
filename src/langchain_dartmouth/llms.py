@@ -367,7 +367,6 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
             "top_p": top_p,
             "model_kwargs": model_kwargs if model_kwargs is not None else {},
         }
-        kwargs = {}
         if inference_server_url:
             kwargs["openai_api_base"] = inference_server_url
         else:
