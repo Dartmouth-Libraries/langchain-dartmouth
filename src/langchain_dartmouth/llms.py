@@ -4,7 +4,7 @@ from langchain_core.callbacks import (
 )
 from langchain_community.llms import HuggingFaceTextGenInference
 from langchain_core.outputs import LLMResult
-from langchain_core.pydantic_v1 import Field
+from pydantic import Field
 from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.messages import BaseMessage, BaseMessageChunk
 from langchain_core.outputs import GenerationChunk

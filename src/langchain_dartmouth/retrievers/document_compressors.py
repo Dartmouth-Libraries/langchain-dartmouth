@@ -1,6 +1,6 @@
 from langchain_core.callbacks import Callbacks
 from langchain_core.documents import Document, BaseDocumentCompressor
-from langchain_core.pydantic_v1 import Extra, Field
+from pydantic import Field
 
 import operator
 from typing import Callable, List, Optional, Sequence
@@ -22,7 +22,7 @@ class TeiCrossEncoderReranker(BaseDocumentCompressor):
     class Config:
         """Configuration for this pydantic object."""
 
-        extra = Extra.forbid
+        extra = "forbid"
         arbitrary_types_allowed = True
 
     def compress_documents(
