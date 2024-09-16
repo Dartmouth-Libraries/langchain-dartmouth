@@ -1,5 +1,7 @@
 # Dartmouth LangChain
 
+![docs](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/docs.yml/badge.svg)
+
 LangChain components for Dartmouth-hosted models.
 
 ## Getting started
