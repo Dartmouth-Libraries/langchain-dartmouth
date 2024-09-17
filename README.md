@@ -1,6 +1,6 @@
 # Dartmouth LangChain
 
-![docs](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/docs.yml/badge.svg) [![tests](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/pytest.yml/badge.svg)](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/pytest.yml)
+[![documentation](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/docs.yml/badge.svg)](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/docs.yml) [![tests](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/pytest.yml/badge.svg)](https://github.com/Dartmouth-Libraries/langchain-dartmouth/actions/workflows/pytest.yml)
 
 LangChain components for Dartmouth-hosted models.
 
