@@ -1,5 +1,8 @@
 name: Publish Python 🐍 distribution 📦 to PyPI
 
+permissions:
+  contents: write
+
 on: push
 jobs:
   build:
