@@ -23,7 +23,7 @@ from typing import (
 
 
 class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
-    """
+    r"""
     Dartmouth-deployed Large Language Models. Use this class for non-chat models
     (e.g., `CodeLlama 13B <https://huggingface.co/codellama/CodeLlama-13b-Python-hf>`_).
 
@@ -75,6 +75,7 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
     :type timeout: int
     :param server_kwargs: Holds any text-generation-inference server parameters not explicitly specified
     :type server_kwargs: dict, optional
+    :param \**_: Additional keyword arguments are silently discarded. This is to ensure interface compatibility with other langchain components.
 
     Example
     --------
@@ -135,6 +136,7 @@ class DartmouthLLM(HuggingFaceTextGenInference, AuthenticatedMixin):
         inference_server_url: Optional[str] = "",
         timeout: int = 120,
         server_kwargs: Dict[str, Any] = None,
+        **_,
     ):
         """Initializes the object"""
         if not inference_server_url:
@@ -243,7 +245,7 @@ def DartmouthChatModel(*args, **kwargs):
 
 
 class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
-    """Dartmouth-deployed Chat models (also known as Instruct models).
+    r"""Dartmouth-deployed Chat models (also known as Instruct models).
 
     Use this class if you want to use a model that uses a chat template
     (e.g., `Llama 3.1 8B Instruct <https://huggingface.co/meta-llama/meta-llama-3.1-8b-instruct>`_).
@@ -288,6 +290,8 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     :type jwt_url: str, optional
     :param inference_server_url: URL pointing to an inference endpoint, defaults to ``"https://ai-api.dartmouth.edu/tgi/"``.
     :type inference_server_url: str, optional
+    :param \**_: Additional keyword arguments are silently discarded. This is to ensure interface compatibility with other langchain components.
+
 
     Example
     ----------
@@ -307,8 +311,6 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     .. note::
 
         The required prompt format is enforced automatically when you are using ``ChatDartmouth``.
-
-
     """
 
     authenticator: Optional[Callable] = None
@@ -327,6 +329,7 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
     n: int = 1
     top_p: Optional[float] = None
     model_kwargs: Optional[dict] = None
+    model_name: str = Field(default="llama-3-1-8b-instruct")
 
     def __init__(
         self,
@@ -348,9 +351,8 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         authenticator: Optional[Callable] = None,
         jwt_url: Optional[str] = None,
         inference_server_url: Optional[str] = None,
+        **_,
     ):
-        """Initializes the object"""
-
         # Explicitly pass kwargs to control which ones show up in the documentation
         kwargs = {
             "temperature": temperature,
@@ -380,7 +382,13 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
         self.authenticate(jwt_url=self.jwt_url)
 
     def invoke(self, *args, **kwargs) -> BaseMessage:
-        """Invokes the model to get a response to a query."""
+        """Invokes the model to get a response to a query.
+
+        See `LangChain's API documentation <https://python.langchain.com/v0.1/docs/expression_language/interface/>`_ for details on how to use this method.
+
+        :return: The LLM's response to the prompt.
+        :rtype: BaseMessage
+        """
         try:
             return super().invoke(*args, **kwargs)
         except Exception:
@@ -388,7 +396,13 @@ class ChatDartmouth(ChatOpenAI, AuthenticatedMixin):
             return super().invoke(*args, **kwargs)
 
     async def ainvoke(self, *args, **kwargs) -> BaseMessage:
-        """Invokes the model to get a response to a query."""
+        """Asynchronously invokes the model to get a response to a query.
+
+        See `LangChain's API documentation <https://python.langchain.com/v0.1/docs/expression_language/interface/>`_ for details on how to use this method.
+
+        :return: The LLM's response to the prompt.
+        :rtype: BaseMessage
+        """
         try:
             response = await super().ainvoke(*args, **kwargs)
             return response

@@ -16,9 +16,21 @@ release = "0.2.8"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ["sphinx.ext.autodoc", "sphinx.ext.napoleon", "sphinx.ext.coverage"]
+extensions = [
+    "sphinx.ext.autodoc",
+    "sphinx.ext.napoleon",
+    "sphinx.ext.coverage",
+    "sphinxcontrib.autodoc_pydantic",
+]
 autodoc_typehints = "description"
+autodoc_member_order = "bysource"
 autodoc_inherit_docstrings = False
+autodoc_pydantic_model_show_json = False
+autodoc_pydantic_model_show_field_summary = False
+autodoc_pydantic_model_show_config_summary = False
+autodoc_pydantic_model_show_validator_summary = False
+autodoc_pydantic_model_signature_prefix = "class"
+autodoc_pydantic_model_undoc_members = False
 templates_path = ["_templates"]
 exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
