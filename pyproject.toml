@@ -27,7 +27,7 @@ dependencies = [
 license = {file = "LICENSE"}
 
 [project.optional-dependencies]
-docs = ["sphinx", "sphinx-rtd-theme"]
+docs = ["sphinx", "sphinx-rtd-theme", "autodoc_pydantic"]
 dev = [
   "pytest",
 ]
